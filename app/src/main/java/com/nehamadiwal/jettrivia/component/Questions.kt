@@ -116,8 +116,10 @@ fun QuestionDisplay(
             if (questionIndex.value >= 3) {
                 ShowProgress(score = questionIndex.value)
             }
-            QuestionTracker(counter = questionIndex.value,
-                outOf = viewModel.getTotalQuestionsCount())
+            QuestionTracker(
+                counter = questionIndex.value,
+                outOf = viewModel.getTotalQuestionsCount()
+            )
             DrawDottedLine(pathEffect = pathEffect)
 
             Column {
@@ -314,7 +316,8 @@ fun ShowProgress(score: Int = 10) {
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Button(onClick = {}, contentPadding = PaddingValues(1.dp),
+        Button(
+            onClick = {}, contentPadding = PaddingValues(1.dp),
             modifier = Modifier
                 .fillMaxWidth(fraction = progressFactor)
                 .background(brush = gradient),
@@ -325,14 +328,17 @@ fun ShowProgress(score: Int = 10) {
                 disabledContainerColor = Color.Transparent
             )
         ) {
-            Text(text = (score*10).toString(),
-                modifier = Modifier.clip(shape = RoundedCornerShape(23.dp))
+            Text(
+                text = (score * 10).toString(),
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(23.dp))
                     .fillMaxHeight(fraction = 0.87f)
                     .fillMaxWidth()
                     .padding(6.dp),
                 color = AppColors.mOffWhite,
                 textAlign = TextAlign.Center,
-                maxLines = 1)
+                maxLines = 1
+            )
         }
     }
 }
