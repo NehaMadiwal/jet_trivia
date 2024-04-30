@@ -10,6 +10,7 @@ activityCompose = "1.9.0"
 composeBom = "2024.04.01"
 viewModelVersion = "2.7.0"
 hiltPluginVersion = "2.48"
+hiltNavigationVersion = "1.2.0"
 coroutineVersion = "1.7.3"
 retrofitVersion = "2.11.0"
 
@@ -31,6 +32,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewModelVersion"}
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltPluginVersion"}
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltPluginVersion"}
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationVersion" }
 coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutineVersion"}
 coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutineVersion"}
 coroutine-play-services ={ group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "coroutineVersion"}

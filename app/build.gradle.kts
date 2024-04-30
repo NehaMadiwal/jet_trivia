@@ -62,9 +62,12 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    implementation(libs.androidx.viewmodel)
+
     //hilt-dagger
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     //coroutines
     implementation(libs.coroutine.core)
