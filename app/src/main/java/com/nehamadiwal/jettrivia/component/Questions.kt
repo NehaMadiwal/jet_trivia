@@ -53,6 +53,9 @@ fun Questions(viewModel: QuestionsViewModel) {
     val questionIndex = remember {
         mutableStateOf(0)
     }
+    val totalScore = remember {
+        mutableStateOf(0)
+    }
     if (viewModel.data.value.loading == true) {
         CircularProgressIndicator(
             modifier = Modifier.wrapContentSize()
@@ -68,6 +71,7 @@ fun Questions(viewModel: QuestionsViewModel) {
             QuestionDisplay(
                 question = question!!,
                 questionIndex = questionIndex,
+                totalScore = totalScore,
                 viewModel = viewModel
             ) {
                 questionIndex.value += 1
@@ -81,6 +85,7 @@ fun Questions(viewModel: QuestionsViewModel) {
 fun QuestionDisplay(
     question: QuestionItem,
     questionIndex: MutableState<Int>,
+    totalScore: MutableState<Int>,
     viewModel: QuestionsViewModel,
     onNextClicked: (Int) -> Unit = {}
 ) {
@@ -89,7 +94,6 @@ fun QuestionDisplay(
     }
     val answerState = remember(question) {
         mutableStateOf<Int?>(null)
-
     }
 
     val correctAnswerState = remember(question) {
@@ -99,6 +103,14 @@ fun QuestionDisplay(
         {
             answerState.value = it
             correctAnswerState.value = choicesState[it] == question.answer
+            if (correctAnswerState.value == true) {
+                totalScore.value += 10
+            } else {
+                totalScore.value -= 1
+            }
+            Log.d("Total score", "QuestionDisplay: ${totalScore.value}")
+
+            // TODO: if answer is correct them move to next automatically
         }
     }
     val pathEffect = PathEffect.dashPathEffect(intervals = floatArrayOf(10f, 10f), phase = 0f)
@@ -114,7 +126,7 @@ fun QuestionDisplay(
             horizontalAlignment = Alignment.Start
         ) {
             if (questionIndex.value >= 3) {
-                ShowProgress(score = questionIndex.value)
+                ShowProgress(questionIndex = questionIndex.value, score = totalScore.value)
             }
             QuestionTracker(
                 counter = questionIndex.value,
@@ -278,7 +290,7 @@ fun QuestionTracker(counter: Int = 10, outOf: Int = 100) {
 
 @Preview
 @Composable
-fun ShowProgress(score: Int = 10) {
+fun ShowProgress(questionIndex: Int = 12, score: Int = 10) {
     val gradient = Brush.linearGradient(
         listOf(
             Color(0xFFF95075),
@@ -286,8 +298,8 @@ fun ShowProgress(score: Int = 10) {
         )
     )
 
-    val progressFactor by remember(score) {
-        mutableStateOf(score * 0.005f)
+    val progressFactor by remember(questionIndex) {
+        mutableStateOf(questionIndex * 0.005f)
     }
     Row(
         modifier = Modifier
@@ -317,7 +329,8 @@ fun ShowProgress(score: Int = 10) {
     ) {
 
         Button(
-            onClick = {}, contentPadding = PaddingValues(1.dp),
+            onClick = {},
+            contentPadding = PaddingValues(1.dp),
             modifier = Modifier
                 .fillMaxWidth(fraction = progressFactor)
                 .background(brush = gradient),
@@ -329,15 +342,16 @@ fun ShowProgress(score: Int = 10) {
             )
         ) {
             Text(
-                text = (score * 10).toString(),
+                text = (score).toString(),
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(23.dp))
-                    .fillMaxHeight(fraction = 0.87f)
                     .fillMaxWidth()
-                    .padding(6.dp),
+                    .padding(vertical = 6.dp)
+                    .align(alignment = Alignment.CenterVertically),
                 color = AppColors.mOffWhite,
                 textAlign = TextAlign.Center,
                 maxLines = 1
+
             )
         }
     }
